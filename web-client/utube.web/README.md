@@ -1,6 +1,6 @@
 # utube.web
 
-This template should help get you started developing with Vue 3 in Vite.
+[![Build Web Client on Pull Request and Push](https://github.com/Rahim373/utube/actions/workflows/webclient.build-on-pr-and-push.yml/badge.svg)](https://github.com/Rahim373/utube/actions/workflows/webclient.build-on-pr-and-push.yml)
 
 ## Recommended IDE Setup
 

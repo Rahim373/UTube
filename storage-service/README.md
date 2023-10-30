@@ -1,6 +1,6 @@
 # Storage Service
 
-[![Docker Image CI](https://github.com/letslearn373/utube.storage-service/actions/workflows/docker-image.yml/badge.svg)](https://github.com/letslearn373/utube.storage-service/actions/workflows/docker-image.yml)
+[![Build storage-service on Pull Request and Push](https://github.com/Rahim373/utube/actions/workflows/storage-service.build-on-pr-and-push.yml/badge.svg)](https://github.com/Rahim373/utube/actions/workflows/storage-service.build-on-pr-and-push.yml)
 
 This service is responsible for managing files in the storage. As of now, this uses [Minio](https://min.io/) for storing files.
 

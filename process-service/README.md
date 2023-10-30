@@ -1,6 +1,6 @@
 # Process Service
 
-[![Docker Image CI](https://github.com/letslearn373/utube.process-service/actions/workflows/docker-image.yml/badge.svg)](https://github.com/letslearn373/utube.process-service/actions/workflows/docker-image.yml)
+[![Build process-service on Pull Request and Push](https://github.com/Rahim373/utube/actions/workflows/process-service.build-on-pr-and-push.yml/badge.svg)](https://github.com/Rahim373/utube/actions/workflows/process-service.build-on-pr-and-push.yml)
 
 This service process uploaded video files like creating thumbnails, resizing, etc using ffmpeg  upload (stream) to the storage with help of storage-service calling gRPC.
 

@@ -1,6 +1,6 @@
 # Video Service
 
-
+[![Build video-service on Pull Request and Push](https://github.com/Rahim373/utube/actions/workflows/video-service.build-on-pr-and-push.yml/badge.svg)](https://github.com/Rahim373/utube/actions/workflows/video-service.build-on-pr-and-push.yml)
 
 ## :hammer_and_wrench: Environment variables
 
