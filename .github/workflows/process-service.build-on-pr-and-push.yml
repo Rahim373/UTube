@@ -1,10 +1,10 @@
-name: Build utube.process-service on Pull Request and Push
+name: Build process-service on Pull Request and Push
 
 on:
   push:
-    paths: ['utube.process-service/**', '.github/workflows/process-service**']
+    paths: ['process-service/**', '.github/workflows/process-service**']
   pull_request:
-    paths: ['utube.process-service/**', '.github/workflows/process-service**']
+    paths: ['process-service/**', '.github/workflows/process-service**']
 
 jobs:
   build:
@@ -17,11 +17,11 @@ jobs:
           dotnet-version: 8.0.x
       
       - name: Install dependencies
-        working-directory: ./utube.process-service
+        working-directory: ./process-service
         run: |
           dotnet nuget add source --username rahim373 --password ${{ secrets.TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Rahim373/index.json"
           dotnet restore ProcessService.sln
       
       - name: Build
-        working-directory: ./utube.process-service
+        working-directory: ./process-service
         run: dotnet build ProcessService.sln --configuration Release --no-restore

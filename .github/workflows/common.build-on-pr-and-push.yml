@@ -1,10 +1,10 @@
-name: Build utube.common on Pull Request and Push
+name: Build common on Pull Request and Push
 
 on:
   push:
-    paths: ['utube.common/**', '.github/workflows/common**']
+    paths: ['common/**', '.github/workflows/common**']
   pull_request:
-    paths: ['utube.common/**', '.github/workflows/common**']
+    paths: ['common/**', '.github/workflows/common**']
 
 jobs:
   build:
@@ -17,9 +17,9 @@ jobs:
           dotnet-version: 8.0.x
       
       - name: Install dependencies
-        working-directory: ./utube.common
+        working-directory: ./common
         run: dotnet restore
       
       - name: Build
-        working-directory: ./utube.common
+        working-directory: ./common
         run: dotnet build --configuration Release --no-restore

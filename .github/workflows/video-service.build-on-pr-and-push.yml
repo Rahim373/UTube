@@ -1,10 +1,10 @@
-name: Build utube.video-service on Pull Request and Push
+name: Build video-service on Pull Request and Push
 
 on:
   push:
-    paths: ['utube.video-service/**', '.github/workflows/video-service**']
+    paths: ['video-service/**', '.github/workflows/video-service**']
   pull_request:
-    paths: ['utube.video-service/**', '.github/workflows/video-service**']
+    paths: ['video-service/**', '.github/workflows/video-service**']
 
 jobs:
   build:
@@ -17,11 +17,11 @@ jobs:
           dotnet-version: 8.0.x
       
       - name: Install dependencies
-        working-directory: ./utube.video-service
+        working-directory: ./video-service
         run: |
           dotnet nuget add source --username rahim373 --password ${{ secrets.TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Rahim373/index.json"
           dotnet restore VideoService.sln
       
       - name: Build
-        working-directory: ./utube.video-service
+        working-directory: ./video-service
         run: dotnet build VideoService.sln --configuration Release --no-restore
