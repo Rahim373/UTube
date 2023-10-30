@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+option csharp_namespace = "ProcessService.Worker.Protos";
+
+service GrpcVideoService {
+    rpc UpdateVideo(UpdateVideoRequest) returns (UpdateVideoResponse);
+}
+
+enum FieldType {
+    Title = 0;
+    Playlist = 1;
+    Thumbnail = 2;
+    Duration = 3;
+}
+
+message UpdateVideoRequest {
+    string videoId = 1;
+    repeated UpdateDetail UpdateDetails = 2;
+}
+
+message UpdateDetail {
+    FieldType field = 1;
+    string value = 2;
+}
+
+message UpdateVideoResponse {
+    bool success = 1;
+}

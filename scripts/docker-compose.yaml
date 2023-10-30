@@ -1,0 +1,128 @@
+version: '3.8'
+services:
+  # prometheus:
+  #   image: ubuntu/prometheus
+  #   container_name: utube.prometheus
+  #   ports:
+  #     - 30015:9090
+  #   volumes:
+  #     - ./prometheus.yml:/etc/prometheus/prometheus.yml
+  #     - ./data/prometheus-storage:/etc/prometheus
+  #   depends_on:
+  #     - rabbitmq
+  #   networks:
+  #     - utube_network
+
+  # grafana:
+  #   image: grafana/grafana
+  #   container_name: utube.grafana
+  #   ports:
+  #     - 30016:3000
+  #   depends_on:
+  #     - prometheus
+  #   volumes:
+  #     - ./data/grafana-storage:/var/lib/grafana
+  #   environment:
+  #     - GF_AUTH_DISABLE_LOGIN_FORM=true
+  #   networks:
+  #     - utube_network
+
+  rabbitmq:
+    image: rabbitmq:management
+    container_name: utube.rabbitmq
+    ports:
+      - 30013:5672
+      - 30014:15672
+    env_file:
+      - ./secrets/rabbitmq.env
+    volumes:
+      - ./data/rabbitmq-storage:/var/lib/rabbitmq
+    networks:
+      - utube_network
+
+  mongo:
+    image: mongo
+    container_name: utube.mongo
+    ports:
+      - 30010:27017
+    env_file:
+      - ./secrets/mongo.env
+    volumes:
+      - ./data/mongo-storage:/data/db
+    networks:
+      - utube_network
+
+  minio:
+    image: minio/minio
+    container_name: utube.minio
+    command: server /data --console-address :9001
+    ports:
+      - 30011:9000
+      - 30012:9001
+    env_file:
+      - ./secrets/minio.env
+    volumes:
+      - ./data/minio-storage:/data
+    networks:
+      - utube_network
+
+  # elasticsearch:
+  #   image: docker.elastic.co/elasticsearch/elasticsearch:8.8.2
+  #   container_name: utube.elasticsearch
+  #   env_file:
+  #     - ./secrets/elasticsearch.env
+  #   ports:
+  #     - 9200:9200
+  #     - 9300:9300
+  #   volumes:
+  #     - ./data/elasticsearch-storage:/usr/share/elasticsearch/data
+  #   ulimits:
+  #     memlock:
+  #       soft: -1
+  #       hard: -1
+  #   networks:
+  #     - utube_network
+
+  # kibana:
+  #   image: docker.elastic.co/kibana/kibana:8.8.2
+  #   container_name: utube.kibana
+  #   volumes:
+  #     - ./data/kibana-storage:/usr/share/kibana/data
+  #   ports:
+  #    - 5601:5601
+  #   restart: always
+  #   env_file:
+  #     - ./secrets/kibana.env
+  #   depends_on:
+  #     - elasticsearch
+  #   networks:
+  #     - utube_network
+    
+  # storage.service:
+  #   image: ghcr.io/letslearn373/utube/storage-service
+  #   container_name: utube.services.storage
+  #   ports:
+  #     - 30001:443
+  #   env_file:
+  #     - ./secrets/storage-service.env
+  #   volumes:
+  #     - ./data/storage.service-storage:/data
+  #     - ./certs:/https:ro
+  #   networks:
+  #     - utube_network
+  #   depends_on:
+  #     - rabbitmq
+  #     - minio
+
+  utube.document:
+    container_name: utube.docuement
+    build: 
+      context: /../utube.document/.
+      dockerfile: /../utube.document/Dockerfile
+    ports:
+      - 30000:80
+    
+
+networks:
+  utube_network:
+    name: my_utube_network

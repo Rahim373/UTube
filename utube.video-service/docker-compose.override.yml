@@ -1,0 +1,23 @@
+version: '3.4'
+
+services:
+  videoservice.api:
+    container_name: utube.services.video
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    ports:
+      - "80"
+      - "443"
+    env_file:
+      - ../scripts/secrets/video-service.env
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ../scripts/certs:/https:ro
+    networks:
+      - utube_network
+
+networks:
+  utube_network:
+    name: my_utube_network
+    external: true

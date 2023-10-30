@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  processservice.worker:
+    image: ${DOCKER_REGISTRY-}processserviceworker
+    build:
+      context: .
+      dockerfile: ProcessService.Worker/Dockerfile

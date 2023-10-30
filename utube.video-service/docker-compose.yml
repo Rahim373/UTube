@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  videoservice.api:
+    image: ${DOCKER_REGISTRY-}videoserviceapi
+    build:
+      context: .
+      dockerfile: VideoService.Api/Dockerfile
