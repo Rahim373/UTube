@@ -1,0 +1,27 @@
+name: Build utube.storage-service on Pull Request and Push
+
+on:
+  push:
+    paths: ['utube.storage-service/**', '.github/workflows/storage-service**']
+  pull_request:
+    paths: ['storage-service/**', '.github/workflows/storage-service**']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK 8.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      
+      - name: Install dependencies
+        working-directory: ./utube.stoage-service
+        run: |
+          dotnet nuget add source --username rahim373 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/letslearn373/index.json"
+          dotnet restore StorageService.sln
+      
+      - name: Build
+        working-directory: ./utube.stoage-service
+        run: dotnet build StorageService.sln --configuration Release --no-restore

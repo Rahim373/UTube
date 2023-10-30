@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  storageservice.api:
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+    container_name: utube.services.storage
+    ports:
+      - "50824:80"
+      - "443"
+    env_file:
+      - ../scripts/secrets/storage-service.env
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ../scripts/certs:/https:ro
+    networks:
+      - utube_network
+
+networks:
+  utube_network:
+    name: my_utube_network
+    external: true
+

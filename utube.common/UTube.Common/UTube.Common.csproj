@@ -7,7 +7,12 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>UTube.Common</Title>
         <PackageDescription>Test project</PackageDescription>
-        <Version>0.0.4</Version>
+        <Version>0.1.0</Version>
+        <Copyright>MIT</Copyright>
+        <PackageProjectUrl>https://github.com/Rahim373/utube</PackageProjectUrl>
+        <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <RepositoryUrl>https://github.com/letslearn373/utube</RepositoryUrl>
     </PropertyGroup>
 
     <ItemGroup>
@@ -25,6 +30,13 @@
         <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.6.0-alpha.1" />
         <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.5.0-beta.1" />
         <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.5.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Update="README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+      </None>
     </ItemGroup>
 
 </Project>
