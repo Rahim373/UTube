@@ -1,0 +1,6 @@
+@ReverseProxy.BFF_HostAddress = http://localhost:5024
+
+GET {{ReverseProxy.BFF_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

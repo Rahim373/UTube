@@ -1,0 +1,30 @@
+{
+  "name": "utube.web",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs --fix --ignore-path .gitignore"
+  },
+  "dependencies": {
+    "@videojs-player/vue": "^1.0.0",
+    "dayjs": "^1.11.10",
+    "pinia": "^2.1.6",
+    "vue": "^3.3.4",
+    "vue-hls-video-player": "^1.0.1",
+    "vue-router": "^4.2.5",
+    "vuetify": "^3.3.17"
+  },
+  "devDependencies": {
+    "@mdi/font": "^7.2.96",
+    "@rushstack/eslint-patch": "^1.4.0",
+    "prettier": "^2.8.8",
+    "@vue/eslint-config-prettier": "^7.1.0",
+    "@vitejs/plugin-vue": "^4.4.0",
+    "eslint": "^8.50.0",
+    "eslint-plugin-vue": "^9.17.0",
+    "vite": "^4.4.11"
+    }
+}
