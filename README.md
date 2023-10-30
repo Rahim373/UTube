@@ -1,7 +1,7 @@
 # :boom::rocket: UTube :rocket::boom:
 A simple youtube like video streaming platform based on microservice architecture.
 
-[![CodeQL](https://github.com/Rahim373/utube/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/Rahim373/utube/actions/workflows/github-code-scanning/codeql)
+Check the [Wiki](https://github.com/Rahim373/utube/wiki) to run it locally
 
 ## :computer: Services
 * Storage Service
