@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         working-directory: ./utube.process-service
         run: |
-          dotnet nuget add source --username rahim373 --password ${{ secrets.GITHUB_TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Rahim373/index.json"
+          dotnet nuget add source --username rahim373 --password ${{ secrets.TOKEN }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Rahim373/index.json"
           dotnet restore ProcessService.sln
       
       - name: Build
