@@ -1,0 +1,23 @@
+name: Build on Pull Request and Push
+
+on:
+  push:
+    paths: ['utube.common/**', '.github/workflows/utube.common/**']
+  pull_request:
+    paths: ['utube.common/**', '.github/workflows/utube.common/**']
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK 8.0.x
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 8.0.x
+      - name: Install dependencies
+        working-directory: ./utube.common
+        run: dotnet restore
+      - name: Build
+        working-directory: ./utube.common
+        run: dotnet build --configuration Release --no-restore
