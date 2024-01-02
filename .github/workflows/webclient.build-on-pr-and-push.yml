@@ -17,9 +17,9 @@ jobs:
           node-version: '*'
       
       - name: Install dependencies
-        working-directory: ./web-client/utube.web
+        working-directory: ./web-client
         run: npm install
       
       - name: Build
-        working-directory: ./web-client/utube.web
+        working-directory: ./web-client
         run: npm run build
