@@ -1,5 +1,5 @@
 # :boom::rocket: UTube :rocket::boom:
-A simple youtube like video streaming platform based on microservice architecture.
+A simple YouTube-like video streaming platform based on microservice architecture.
 
 Check the [Wiki](https://github.com/Rahim373/utube/wiki) to run it locally
 
@@ -16,12 +16,12 @@ Check the [Wiki](https://github.com/Rahim373/utube/wiki) to run it locally
 * gRPC
 * RabbitMQ
 * [Minio](https://min.io/) (Object storage)
-* ffmpeg
+* FFmpeg
 * ELK (Elastic, Logstash, Kibana) for logging
-* Vue 3
+* React (NextJS)
 
 ## :nut_and_bolt: Architecture (Current)
 ![utube.drawio.png](/utube.drawio.png)
 
 ### :speak_no_evil: Note
-This is an ongoing project. If you love to contribute, feel fee to create a PR.
+This is an ongoing project. If you love to contribute, feel free to create a PR.
