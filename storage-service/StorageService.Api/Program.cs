@@ -31,6 +31,6 @@ var app = builder.Build();
     app.UseSwagger();
     app.UseSwaggerUI();
 
-    app.UseCors();
+    app.UseCors("AllowAll");
     app.Run();
 }
