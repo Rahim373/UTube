@@ -14,7 +14,7 @@ COPY ["VideoService.Application/VideoService.Application.csproj", "VideoService.
 COPY ["VideoService.Infrastructure/VideoService.Infrastructure.csproj", "VideoService.Infrastructure/"]
 
 RUN --mount=type=secret,id=github_token \
-    dotnet nuget add source --username abdurrahim373 --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/letslearn373/index.json"
+    dotnet nuget add source --username rahim373 --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Rahim373/index.json"
 
 RUN dotnet restore "VideoService.Api/VideoService.Api.csproj"
 COPY . .
