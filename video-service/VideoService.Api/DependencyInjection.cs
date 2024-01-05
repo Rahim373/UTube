@@ -1,4 +1,6 @@
 ﻿using Carter;
+using MinimalHelpers.OpenApi;
+using OpenTelemetry.Metrics;
 
 namespace VideoService.Api;
 
@@ -15,6 +17,21 @@ public static class DependencyInjection
         }));
         services.AddGrpcReflection();
         services.AddCarter();
+
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen(options =>
+        {
+            options.AddMissingSchemas();
+        });
+
+        services.AddOpenTelemetry()
+            .WithMetrics(builder => builder
+                .AddAspNetCoreInstrumentation()
+                .AddRuntimeInstrumentation()
+                .AddPrometheusExporter(config =>
+                {
+                    config.ScrapeResponseCacheDurationMilliseconds = 1000;
+                }));
 
         return services;
     }

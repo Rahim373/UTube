@@ -19,8 +19,7 @@ public class UpdateVideoFieldsCommandHandler : IRequestHandler<UpdateVideoFields
 
     public async Task<bool> Handle(UpdateVideoFieldsCommand request, CancellationToken cancellationToken)
     {
-        Guid.TryParse(request.VideoId, out Guid videoId);
-        var filter = Builders<Video>.Filter.Eq(v => v.VideoId, videoId);
+        var filter = Builders<Video>.Filter.Eq(v => v.VideoId, request.VideoId);
 
         var update = Builders<Video>.Update;
         var updates = new List<UpdateDefinition<Video>>();

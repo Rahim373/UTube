@@ -20,7 +20,7 @@ public class CreateVideoCommandHandler : IRequestHandler<CreateVideoCommand>
     {
         await _videoCollection.InsertOneAsync(new Video
         {
-            VideoId = Guid.Parse(request.VideoId),
+            VideoId = request.VideoId,
             Title = "Untitled",
             UploadedOn = DateTime.UtcNow,
         });

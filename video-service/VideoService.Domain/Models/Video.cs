@@ -1,12 +1,8 @@
-﻿using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-
-namespace VideoService.Domain.Models
+﻿namespace VideoService.Domain.Models
 {
     public class Video : BaseEntity
     {
-        [BsonGuidRepresentation(GuidRepresentation.Standard)]
-        public Guid VideoId { get; set; }
+        public string VideoId { get; set; }
         public DateTime UploadedOn { get; set; } = DateTime.Now;
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;

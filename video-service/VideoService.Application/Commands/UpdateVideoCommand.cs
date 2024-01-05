@@ -19,7 +19,7 @@ public class UpdateVideoCommandHandler : IRequestHandler<UpdateVideoCommand, boo
     public async Task<bool> Handle(UpdateVideoCommand request, CancellationToken cancellationToken)
     {
         var updateResult = await _videoCollection.UpdateOneAsync(
-            rec => rec.VideoId == Guid.Parse(request.VideoId),
+            rec => rec.VideoId == request.VideoId,
             Builders<Video>.Update
                 .Set(rec => rec.Title, request.Title)
             ).ConfigureAwait(false);

@@ -17,11 +17,16 @@ var app = builder.Build();
     app.UseGrpcWeb(new GrpcWebOptions { DefaultEnabled = true });
     app.MapGrpcService<GrpcVideoService>();
     app.MapGrpcReflectionService();
+    app.MapCarter();
+    app.MapPrometheusScrapingEndpoint();
+
+    app.UseSwagger();
+    app.UseSwaggerUI();
 
     app.UseCors(conf =>
     {
         conf.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
     });
-    app.MapCarter();
+
     app.Run();
 };

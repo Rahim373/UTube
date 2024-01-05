@@ -6,11 +6,16 @@ on:
   pull_request:
     paths: ['video-service/**', '.github/workflows/video-service**']
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}/video-service
+
 jobs:
   build:
+    name: Build the project
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Setup .NET Core SDK 8.0.x
         uses: actions/setup-dotnet@v3
         with:
@@ -25,3 +30,41 @@ jobs:
       - name: Build
         working-directory: ./video-service
         run: dotnet build VideoService.sln --configuration Release --no-restore
+
+  Publish:
+    name: Publish to Github Registry
+    runs-on: ubuntu-latest
+    needs: build
+    if: success() && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Extract metadata (tags, labels) for Docker
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v5
+        with:
+          context: video-service/.
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: |
+            ${{ steps.meta.outputs.labels }}
+            org.opencontainers.image.documentation=https://github.com/${{github.repository}}/blob/dev/storage-service/README.md
+          secrets: |
+            github_token=${{ secrets.GITHUB_TOKEN }}
+

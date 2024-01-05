@@ -7,7 +7,7 @@ using VideoService.Domain.Models;
 
 namespace VideoService.Application.Commands
 {
-    public record GetVideoListCommand(int pageLength, int pageNumber) : IRequest<List<VideoDto>>
+    public record GetVideoListCommand(int? pageLength, int? pageNumber) : IRequest<List<VideoDto>>
     {
     }
 
@@ -22,13 +22,14 @@ namespace VideoService.Application.Commands
 
         public async Task<List<VideoDto>> Handle(GetVideoListCommand request, CancellationToken cancellationToken)
         {
-            var take = request.pageLength < 1 ? 50 : request.pageLength;
-            var skip = (request.pageNumber < 1 ? 1 : request.pageNumber) - 1;
+            var take = request.pageLength is < 1 or null ? 50 : request.pageLength;
+            var skip = (request.pageNumber is < 1 or null ? 1 : request.pageNumber) - 1;
 
             var videos = await _videoCollection
                 .Find(Builders<Video>.Filter.Empty)
                 .Skip(skip * take)
-                .Limit(take).ToListAsync(cancellationToken);
+                .Limit(take)
+                .ToListAsync(cancellationToken);
 
             return await Task.FromResult(videos.Adapt<List<VideoDto>>());
         }

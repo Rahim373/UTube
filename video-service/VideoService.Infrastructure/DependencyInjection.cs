@@ -1,7 +1,9 @@
 ﻿using MassTransit;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using UTube.Common.Events;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Bson.Serialization;
 using VideoService.Application.Consumers;
 using VideoService.Application.Context;
 using VideoService.Infrastructure.Services;

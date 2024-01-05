@@ -22,7 +22,10 @@ namespace VideoService.Application.Commands
 
         public async Task<VideoDto> Handle(GetVideoCommand request, CancellationToken cancellationToken)
         {
-            var video = await _videoCollection.Find(i => i.VideoId == request.VideoId).FirstOrDefaultAsync(cancellationToken);
+            var video = await _videoCollection
+                .Find(Builders<Video>.Filter.Eq(v => v.VideoId, request.VideoId.ToString()))
+                .FirstOrDefaultAsync(cancellationToken);
+
             return await Task.FromResult(video.Adapt<VideoDto>());
         }
     }
