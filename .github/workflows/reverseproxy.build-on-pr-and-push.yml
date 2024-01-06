@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         working-directory: ./reverse-proxy
         run: |
-          dotnet restore StorageService.sln
+          dotnet restore ReverseProxy.sln
       
       - name: Build
         working-directory: ./reverse-proxy
