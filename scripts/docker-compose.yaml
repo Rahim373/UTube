@@ -113,6 +113,20 @@ services:
       - minio
       - mongo
 
+  reverseproxy:
+    image: ghcr.io/rahim373/utube/reverse-proxy:dev
+    container_name: utube.reverse-proxy
+    ports:
+      - 30005:8080
+    volumes:
+      - ./data/reverse-proxy-storage:/data
+      - ./certs:/https:ro
+    networks:
+      - utube_network
+    depends_on:
+      - video.service
+      - storage.service
+
 networks:
   utube_network:
     name: my_utube_network
