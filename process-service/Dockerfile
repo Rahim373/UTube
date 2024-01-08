@@ -2,7 +2,7 @@
 
 FROM ghcr.io/rahim373/utube/aspnet-ffmpeg:v8 AS base
 WORKDIR /app
-EXPOSE 80
+EXPOSE 8080
 EXPOSE 443
 
 FROM ghcr.io/rahim373/utube/aspnet-ffmpeg:v8 AS build

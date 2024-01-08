@@ -117,7 +117,7 @@ services:
     image: ghcr.io/rahim373/utube/process-service:dev
     container_name: utube.services.process
     ports:
-      - 30003:80
+      - 30003:8080
     env_file:
       - ./secrets/video-service.env
     volumes:
