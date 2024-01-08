@@ -9,7 +9,7 @@ service GrpcFileService {
 enum UploadFileType {
     VIDEO = 0;
     THUMBNAIL = 1;
-    PLAYLIST = 3;
+    PLAYLIST = 2;
 }
 
 message DataChunk {

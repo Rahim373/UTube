@@ -62,7 +62,7 @@ public class FFMpegService : IFFMpegService
                 Directory.CreateDirectory(outputDirectory);
 
             // var args = GetFfmpegArgs(videoFilePath, dimentions, outputDirectory);
-            var args = $@"-i {videoFilePath} -hls_time 10 -hls_list_size 0 -hls_flags delete_segments -hls_segment_filename {outputDirectory}/${videoId}_%03d.ts {outputFilePath}";
+            var args = $@"-i {videoFilePath} -hls_time 10 -hls_list_size 0 -hls_flags delete_segments -hls_segment_filename {outputDirectory}/{videoId}_%03d.ts {outputFilePath}";
 
             var conversion = await FFmpeg.Conversions.New().UseMultiThread(true).Start(args);
 

@@ -1,5 +1,7 @@
-﻿using MimeTypes;
+﻿using Microsoft.FeatureManagement;
+using MimeTypes;
 using ProcessService.Worker.Enums;
+using ProcessService.Worker.Features;
 using ProcessService.Worker.Protos;
 using static ProcessService.Worker.Protos.GrpcFileService;
 using static ProcessService.Worker.Protos.GrpcVideoService;
@@ -12,17 +14,20 @@ namespace ProcessService.Worker.Services
         private readonly GrpcVideoServiceClient _grpcVideoServiceClient;
         private readonly IFFMpegService _ffMpegService;
         private readonly IFileService _fileService;
+        private readonly IFeatureManager _featureManager;
 
         public VideoProcessor(
             GrpcFileServiceClient grpcFileServiceClient,
             GrpcVideoServiceClient grpcVideoServiceClient,
             IFFMpegService ffMpegService,
-            IFileService fileService)
+            IFileService fileService,
+            IFeatureManager featureManager)
         {
             _grpcFileServiceClient = grpcFileServiceClient;
             _grpcVideoServiceClient = grpcVideoServiceClient;
             _ffMpegService = ffMpegService;
             _fileService = fileService;
+            _featureManager = featureManager;
         }
 
         public async Task ProcessThumbnailAsync(string videoId, string videoPath, CancellationToken cancellationToken = default)
@@ -67,7 +72,7 @@ namespace ProcessService.Worker.Services
             });
             await _grpcVideoServiceClient.UpdateVideoAsync(durationData, cancellationToken: cancellationToken);
 
-            var variations = GetVariations(data.Width);
+            var variations = await GetVariations(data.Width);
             await DownscaleAndUpload(videoId, videoPath, variations, cancellationToken);
         }
 
@@ -108,18 +113,27 @@ namespace ProcessService.Worker.Services
             }
         }
 
-        private static List<VideoWidth> GetVariations(int width)
+        private async Task<List<VideoWidth>> GetVariations(int width)
         {
             var variations = new List<VideoWidth>();
 
-            if (width >= 1080)
-                variations.Add(VideoWidth.Fhd1080);
+            if (await _featureManager.IsEnabledAsync(ApplicationFeatureFlags.DownscaleTo1080))
+            {
+                if (width >= 1080)
+                    variations.Add(VideoWidth.Fhd1080);
+            }
 
-            if (width >= 720)
-                variations.Add(VideoWidth.Hd720);
+            if (await _featureManager.IsEnabledAsync(ApplicationFeatureFlags.DownscaleTo1080))
+            {
+                if (width >= 720)
+                    variations.Add(VideoWidth.Hd720);
+            }
 
-            if (width >= 480)
-                variations.Add(VideoWidth.Sd480);
+            if (await _featureManager.IsEnabledAsync(ApplicationFeatureFlags.DownscaleTo1080))
+            {
+                if (width >= 480)
+                    variations.Add(VideoWidth.Sd480);
+            }
 
             return variations;
         }

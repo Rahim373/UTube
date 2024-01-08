@@ -1,6 +1,8 @@
 ﻿using MassTransit;
 using MassTransit.Transports.Fabric;
+using Microsoft.FeatureManagement;
 using ProcessService.Worker.Consumers;
+using ProcessService.Worker.Features;
 using ProcessService.Worker.Protos;
 using ProcessService.Worker.Services;
 using ProcessService.Worker.Settings;
@@ -14,6 +16,8 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddDependencies(this IServiceCollection services, ConfigurationManager configuration)
     {
+        services.AddFeatureManagement(configuration.GetSection(nameof(ApplicationFeatureFlags)));
+
         #region MassTransit
 
         var rabbitMQSetting = new RabbitMQSetting();

@@ -113,6 +113,24 @@ services:
       - minio
       - mongo
 
+  process.service:
+    image: ghcr.io/rahim373/utube/process-service:dev
+    container_name: utube.services.process
+    ports:
+      - 30003:80
+    env_file:
+      - ./secrets/video-service.env
+    volumes:
+      - ./data/video-service-storage:/data
+      - ./certs:/https:ro
+    networks:
+      - utube_network
+    depends_on:
+      - rabbitmq
+      - minio
+      - video.service
+      - storage.service
+
   reverseproxy:
     image: ghcr.io/rahim373/utube/reverse-proxy:dev
     container_name: utube.reverse-proxy
