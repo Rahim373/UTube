@@ -3,7 +3,7 @@ WORKDIR /app
 EXPOSE 80
 EXPOSE 443
 
-FROM ghcr.io/rahim373/utube/aspnet-ffmpeg:v8 AS build
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY ["ProcessService.Worker/ProcessService.Worker.csproj", "ProcessService.Worker/"]
 RUN dotnet restore "ProcessService.Worker/ProcessService.Worker.csproj"
