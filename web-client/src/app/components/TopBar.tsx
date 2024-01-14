@@ -1,11 +1,14 @@
 import Image from "next/image";
 import logo from "../../assets/img/utube-logo.png";
+import Link from "next/link";
 
 export default function TopBar(): any {
   return (
     <div className="flex items-center content-stretch justify-between h-14 px-4">
       <div className="align-middle">
-        <Image src={logo} width={98} alt="uTube Logo" priority={false} />
+        <Link href="/">
+          <Image src={logo} width={98} alt="uTube Logo" priority={false} />
+        </Link>
       </div>
       <div>
         <input
@@ -13,7 +16,9 @@ export default function TopBar(): any {
           placeholder="Search"
         />
       </div>
-      <div>right</div>
+      <div>
+        <Link href="/studio/upload">Upload Video</Link>
+      </div>
     </div>
   );
 }

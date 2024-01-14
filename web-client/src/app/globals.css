@@ -28,9 +28,25 @@ body {
   background-size: cover;
 }
 
+.small-thumbnail {
+  padding-top: 56.25%;
+  position: relative;
+  width: 100%;
+  border-radius: 10px;
+  background-size: cover;
+}
+
 .channel-thumbnail{
   height: 32px;
   width: 32px;
+  margin-right: 8px;
+  border-radius: 50%;
+  padding: 0;
+}
+
+.channel-thumbnail-lg{
+  height: 42px;
+  width: 42px;
   margin-right: 8px;
   border-radius: 50%;
   padding: 0;

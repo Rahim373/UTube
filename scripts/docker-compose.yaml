@@ -119,9 +119,9 @@ services:
     ports:
       - 30003:8080
     env_file:
-      - ./secrets/video-service.env
+      - ./secrets/process-service.env
     volumes:
-      - ./data/video-service-storage:/data
+      - ./data/process-service-storage:/data
       - ./certs:/https:ro
     networks:
       - utube_network
@@ -130,6 +130,19 @@ services:
       - minio
       - video.service
       - storage.service
+
+  webclient:
+    image: ghcr.io/rahim373/utube/web-client:dev
+    container_name: utube.web-client
+    ports:
+      - 30006:3000
+    env_file:
+      - ./secrets/web-client.env
+    networks:
+      - utube_network
+    depends_on:
+      - reverseproxy
+      - minio
 
   reverseproxy:
     image: ghcr.io/rahim373/utube/reverse-proxy:dev

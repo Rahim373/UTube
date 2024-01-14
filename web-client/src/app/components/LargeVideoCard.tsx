@@ -1,30 +1,34 @@
-import VideoTitle from "./VideoTitle";
+import Link from "next/link";
+import { Video } from "../models/Video";
+import * as dayjs from "dayjs";
+import VideoInfo from "./VideoInfo";
+import { ApiRoutes } from "../constants/Api";
 
-export default function LargeVideoCard() {
-  const poster = "https://picsum.photos/300/200";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+
+export default function LargeVideoCard(props: any) {
   const thumbnail = "https://picsum.photos/32";
+  const video: Video = props.video;
+  const poster = `${ApiRoutes.Storage}/${video.defaultThumbnail}`;
 
   return (
-    <div className="">
-      <div
-        className="thumbnail"
-        style={{ backgroundImage: `url(${poster})` }}
-      ></div>
-      <div className="mt-3 flex flex-row">
+    <Link href={`/video/${encodeURIComponent(video.videoId)}`}>
+      <div className="">
         <div
-          className="channel-thumbnail flex-shrink-0"
-          style={{ backgroundImage: `url(${thumbnail})` }}
+          className="thumbnail border border-gray-200 rounded-xl"
+          style={{ backgroundImage: `url(${poster})` }}
         ></div>
-        <div>
-          <VideoTitle>
-            নির্বাচনে আইনশৃঙ্খলা বাহিনীর চাহিদা ১ হাজার ৭১ কোটি টাকা! | National
-            Election | Ekhon TV
-          </VideoTitle>
-          <span className="channel-info">Test channel</span>
-          <br />
-          <span className="channel-info">4.5k views . 2 hours ago</span>
+        <div className="mt-3">
+          <VideoInfo
+            title={video?.title}
+            channel={video?.channel}
+            channelThumbnail={thumbnail}
+            views={video?.views}
+            uploadedOn={video?.uploadedOn}
+          />
         </div>
       </div>
-    </div>
+    </Link>
   );
 }

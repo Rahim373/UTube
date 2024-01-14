@@ -23,9 +23,6 @@ export default function RootLayout({
             <TopBar />
           </div>
           <div className="absolute top-14 w-full h-[calc(100%-56px)] flex">
-            <div className="w-48 flex-shrink-0 border-r border-gray-100">
-              left
-            </div>
             <div className="bg-white w-full overflow-y-auto max-h-full p-4">
               <div className="max-w-screen-2xl content-around m-auto">
                 {children}
