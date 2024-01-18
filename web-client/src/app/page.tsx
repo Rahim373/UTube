@@ -1,6 +1,6 @@
 import VideoGrid from "./components/VideoGrid";
 
-export default function Home() {
+export default async function Home() {
   return (
     <div>
       <VideoGrid />

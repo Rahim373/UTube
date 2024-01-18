@@ -1,8 +1,13 @@
 import Image from "next/image";
 import logo from "../../assets/img/utube-logo.png";
 import Link from "next/link";
+import Logout from "./Logout";
+import { getServerSession } from "next-auth";
+import options from "../api/auth/[...nextauth]/options";
 
-export default function TopBar(): any {
+export default async function TopBar() {
+  const session = await getServerSession(options);
+
   return (
     <div className="flex items-center content-stretch justify-between h-14 px-4">
       <div className="align-middle">
@@ -18,6 +23,7 @@ export default function TopBar(): any {
       </div>
       <div>
         <Link href="/studio/upload">Upload Video</Link>
+        {session && <Logout></Logout>}
       </div>
     </div>
   );

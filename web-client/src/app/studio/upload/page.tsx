@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import VideoUploader from "./VideoUploader";
-import VideoUploadResponse from "../../models/VideoUploadResponse";
 import VideoForm from "@/app/components/VideoForm";
+import VideoUploadResponse from "../../models/VideoUploadResponse";
 
 export default function Upload() {
   const [fileUploaded, setFileUploaded] = useState<boolean>(false);
