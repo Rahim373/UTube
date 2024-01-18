@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  identity:
+    container_name: utube.services.identity
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=8080
+    ports:
+      - "8080"
+    networks:
+      - utube_network
+
+
+networks:
+  utube_network:
+    name: my_utube_network
+    external: true
