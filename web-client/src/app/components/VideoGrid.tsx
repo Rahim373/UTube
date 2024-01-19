@@ -14,17 +14,13 @@ export default function VideoGrid() {
 
   useEffect(() => {
     const fetchData = async () => {
-      var response = await fetch(ApiRoutes.Videos, {
-        headers: {
-          Authorization: `Bearer ${session?.access_token}`,
-        },
-      });
+      var response = await fetch(ApiRoutes.Videos);
       var data = await response.json();
       setVideos([...videos, ...data]);
     };
 
-    if (session) fetchData().catch((e) => console.error(e));
-  }, [session?.access_token]);
+    fetchData().catch((e) => console.error(e));
+  }, []);
 
   return (
     <div>

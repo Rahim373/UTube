@@ -1,44 +1,65 @@
-"use client";
-
 import { Video } from "@/app/models/Video";
-import { useEffect, useState } from "react";
-import ReactHlsPlayer from "@ducanh2912/react-hls-player";
 import VideoTitle from "@/app/components/VideoTitle";
 import Button from "@/app/components/Button";
 import dayjs from "dayjs";
 import Views from "@/app/components/Views";
 import VerticalVideoList from "@/app/components/VerticalVideoList";
 import { ApiRoutes } from "@/app/constants/Api";
-
 import localizedFormat from "dayjs/plugin/localizedFormat";
+import VideoPlayer from "@/app/components/VideoPlayer";
+import { Metadata, ResolvingMetadata } from "next";
 dayjs.extend(localizedFormat);
 
-export default function Page({ params }: { params: { id: string } }) {
-  const [video, setVideo] = useState<Video>();
+/**
+ Returns video information
+ * @param id Video id
+ * @returns Video object
+ */
+const getVideo = async (id: string): Promise<Video> => {
+  const response = await fetch(`${ApiRoutes.Videos}/${id}`);
+  const data: Video = await response.json();
+  return data;
+};
 
+/**
+ * Generate the metadata for the current page
+ * @param params params
+ * @param parent parent
+ * @returns Metadata
+ */
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata
+): Promise<Metadata> {
+  const id = params.id;
+  // fetch data
+  const video = await getVideo(id);
+  const previousImages = (await parent).openGraph?.images || [];
+
+  return {
+    title: video.title,
+    openGraph: {
+      images: [
+        `${ApiRoutes.Storage}/${video.defaultThumbnail}`,
+        ...previousImages,
+      ],
+    },
+  };
+}
+
+export default async function Page(props: any) {
+  const id: string = props.params.id;
+  console.log(id);
+  const video = await getVideo(id);
   const thumbnail = "https://picsum.photos/32";
-
-  useEffect(() => {
-    const getData = async () => {
-      const response = await fetch(`${ApiRoutes.Videos}/${params.id}`);
-      const data: Video = await response.json();
-      setVideo(data);
-    };
-
-    getData().catch((e) => console.error(e));
-  }, []);
 
   return (
     <div className="flex ">
       {video && (
         <div className="w-4/6 pr-4">
-          <ReactHlsPlayer
-            className="rounded-2xl"
+          <VideoPlayer
             src={`${ApiRoutes.Storage}/${video?.playlist}`}
-            width="100%"
-            autoPlay={false}
-            controls={true}
-          />
+          ></VideoPlayer>
 
           <div className="mt-4">
             <VideoTitle $largeTitle>{video?.title}</VideoTitle>
