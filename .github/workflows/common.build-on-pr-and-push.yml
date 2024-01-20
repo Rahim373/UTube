@@ -17,28 +17,9 @@ defaults:
     shell: pwsh
 
 jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - name: Setup .NET Core SDK 8.0.x
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: 8.0.x
-      
-      - name: Install dependencies
-        working-directory: ./common
-        run: dotnet restore
-      
-      - name: Build
-        working-directory: ./common
-        run: dotnet build --configuration Release --no-restore
-
   Pack:
-    name: Pack NuGet package and upload to artifact
+    name: Build and Pack NuGet package and upload to artifact
     runs-on: ubuntu-latest
-    needs: build
-    if: success() && github.ref == 'refs/heads/master' || github.ref == 'refs/heads/dev'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4

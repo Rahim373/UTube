@@ -40,7 +40,10 @@ namespace UTube.Common.Services
                 return default;
             }
 
-            return JsonConvert.DeserializeObject<T>(str);
+            return JsonConvert.DeserializeObject<T>(str, new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore
+            });
         }
 
         public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
