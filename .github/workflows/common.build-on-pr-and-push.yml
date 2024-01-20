@@ -1,6 +1,7 @@
 name: Build common on Pull Request and Push
 
 on:
+  workflow_dispatch:
   push:
     paths: ['common/**', '.github/workflows/common**']
   pull_request:
@@ -44,7 +45,7 @@ jobs:
       - name: Pack NuGet Package
         working-directory: ./common/UTube.Common
         run: |
-          pwd
+          dotnet build --configuration Release 
           dotnet pack --configuration Release --output ${{ env.NuGetDirectory }}
 
       - uses: actions/upload-artifact@v3
