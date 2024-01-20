@@ -17,7 +17,7 @@ namespace UTube.Common.Services
 
         public Task AddAsync<T>(string key, T value, CancellationToken cancellationToken = default)
         {
-            return AddAsync(key, JsonConvert.SerializeObject(value), null, cancellationToken);
+            return AddAsync(key, value, null, cancellationToken);
         }
 
         public Task AddAsync<T>(string key, T value, TimeSpan? timeSpan, CancellationToken cancellationToken = default)
@@ -31,6 +31,13 @@ namespace UTube.Common.Services
             return _distributedCache.SetStringAsync(key, str, options, cancellationToken);
         }
 
+        /// <summary>
+        /// Get value from Radis based on the key.
+        /// </summary>
+        /// <typeparam name="T?">Type of the value</typeparam>
+        /// <param name="key">Key</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <returns>Value if key is found. Otherwise null</returns>
         public async ValueTask<T?> GetValueAsync<T>(string key, CancellationToken cancellationToken = default)
         {
             var str = await _distributedCache.GetStringAsync(key, cancellationToken);
