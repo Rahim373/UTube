@@ -17,7 +17,7 @@ namespace UTube.Common.Services
 
         public Task AddAsync<T>(string key, T value, CancellationToken cancellationToken = default)
         {
-            return AddAsync(key, JsonConvert.SerializeObject(value), cancellationToken);
+            return AddAsync(key, JsonConvert.SerializeObject(value), null, cancellationToken);
         }
 
         public Task AddAsync<T>(string key, T value, TimeSpan? timeSpan, CancellationToken cancellationToken = default)

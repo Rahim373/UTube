@@ -1,13 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>UTube.Common</Title>
-        <PackageDescription>This is a common package for the utube that contains various events, models, services and some extention methods</PackageDescription>
-        <Version>0.2.1</Version>
+        <PackageDescription>This is a common package for the utube that contains various events, models, services and some extention methods.</PackageDescription>
+        <Version>0.3.0</Version>
         <VersionPrefix>0.2.1</VersionPrefix>
         <VersionSuffix>pre</VersionSuffix>
         <Copyright>MIT</Copyright>
@@ -15,6 +14,9 @@
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <RepositoryUrl>https://github.com/rahim373/utube</RepositoryUrl>
+        <Description>This is a common package for the utube that contains various events, models, services and some extention methods.</Description>
+        <RepositoryType>git</RepositoryType>
+        <PackageReleaseNotes>Fixed a bug while setting string value into Radis.</PackageReleaseNotes>
     </PropertyGroup>
 
     <ItemGroup>
