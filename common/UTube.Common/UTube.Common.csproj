@@ -7,8 +7,8 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>UTube.Common</Title>
         <PackageDescription>This is a common package for the utube that contains various events, models, services and some extention methods</PackageDescription>
-        <Version>0.2.0</Version>
-        <VersionPrefix>0.2.0</VersionPrefix>
+        <Version>0.2.1</Version>
+        <VersionPrefix>0.2.1</VersionPrefix>
         <VersionSuffix>pre</VersionSuffix>
         <Copyright>MIT</Copyright>
         <PackageProjectUrl>https://github.com/rahim373/utube</PackageProjectUrl>

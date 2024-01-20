@@ -27,7 +27,8 @@ namespace UTube.Common.Services
                 AbsoluteExpirationRelativeToNow = timeSpan
             };
 
-            return _distributedCache.SetStringAsync(key, JsonConvert.SerializeObject(value), options, cancellationToken);
+            var str = JsonConvert.SerializeObject(value);
+            return _distributedCache.SetStringAsync(key, str, options, cancellationToken);
         }
 
         public async ValueTask<T?> GetValueAsync<T>(string key, CancellationToken cancellationToken = default)
