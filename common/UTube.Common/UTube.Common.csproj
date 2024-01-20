@@ -6,8 +6,8 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>UTube.Common</Title>
         <PackageDescription>This is a common package for the utube that contains various events, models, services and some extention methods.</PackageDescription>
-        <Version>0.3.0</Version>
-        <VersionPrefix>0.2.1</VersionPrefix>
+        <Version>0.3.1</Version>
+        <VersionPrefix>0.3.1</VersionPrefix>
         <VersionSuffix>pre</VersionSuffix>
         <Copyright>MIT</Copyright>
         <PackageProjectUrl>https://github.com/rahim373/utube</PackageProjectUrl>
@@ -17,6 +17,14 @@
         <Description>This is a common package for the utube that contains various events, models, services and some extention methods.</Description>
         <RepositoryType>git</RepositoryType>
         <PackageReleaseNotes>Fixed a bug while setting string value into Radis.</PackageReleaseNotes>
+        <IncludeSymbols>True</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+      <DebugType>embedded</DebugType>
+    </PropertyGroup>
+    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+      <DebugType>embedded</DebugType>
     </PropertyGroup>
 
     <ItemGroup>

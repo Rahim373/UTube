@@ -47,5 +47,22 @@ namespace UTube.Common.DependencyInjection
 
             return services;
         }
+
+        public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
+        {
+            var connectionString = configuration.GetConnectionString("Redis");
+
+            if (string.IsNullOrEmpty(connectionString))
+            {
+                throw new ArgumentNullException("Connection string \"Redis\" is defined in the appsettings.json");
+            }
+
+            services.AddStackExchangeRedisCache(options =>
+            {
+                options.Configuration = connectionString;
+            });
+
+            return services;
+        }
     }
 }
