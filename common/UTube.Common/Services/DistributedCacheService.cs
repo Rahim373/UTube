@@ -27,7 +27,7 @@ namespace UTube.Common.Services
                 AbsoluteExpirationRelativeToNow = timeSpan
             };
 
-            var str = JsonConvert.SerializeObject(value).ToString();
+            var str = JsonConvert.SerializeObject(value);
             return _distributedCache.SetStringAsync(key, str, options, cancellationToken);
         }
 
@@ -35,15 +35,12 @@ namespace UTube.Common.Services
         {
             var str = await _distributedCache.GetStringAsync(key, cancellationToken);
 
-            if (str is null)
+            if (string.IsNullOrEmpty(str))
             {
                 return default;
             }
 
-            return JsonConvert.DeserializeObject<T>(str, new JsonSerializerSettings
-            {
-                NullValueHandling = NullValueHandling.Ignore
-            });
+            return JsonConvert.DeserializeObject<T>(str);
         }
 
         public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
