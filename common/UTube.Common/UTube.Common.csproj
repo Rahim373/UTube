@@ -6,9 +6,7 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>UTube.Common</Title>
         <PackageDescription>This is a common package for the utube that contains various events, models, services and some extention methods.</PackageDescription>
-        <Version>0.3.3</Version>
-        <VersionPrefix>0.3.3</VersionPrefix>
-        <VersionSuffix>pre</VersionSuffix>
+        <Version>0.4.0</Version>
         <Copyright>MIT</Copyright>
         <PackageProjectUrl>https://github.com/rahim373/utube</PackageProjectUrl>
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
