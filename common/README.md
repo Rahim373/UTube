@@ -1,5 +1,5 @@
 ﻿# Common
-[![Build and Publish - Common](https://github.com/Rahim373/utube/actions/workflows/common-build_and_publish.yml/badge.svg)](https://github.com/Rahim373/utube/actions/workflows/common-build_and_publish.yml)
+[![Build and Publish - Common](https://github.com/Rahim373/utube/actions/workflows/common-build_and_publish.yml/badge.svg?branch=dev)](https://github.com/Rahim373/utube/actions/workflows/common-build_and_publish.yml)
 
 This project combines necessary events, services and extension methods that is frequesntly used accross the system. This covers the follow for now -
 
