@@ -6,7 +6,7 @@
         <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
         <Title>UTube.Common</Title>
         <PackageDescription>This is a common package for the utube that contains various events, models, services and some extention methods.</PackageDescription>
-        <Version>0.4.0</Version>
+        <Version>0.5.0</Version>
         <Copyright>MIT</Copyright>
         <PackageProjectUrl>https://github.com/rahim373/utube</PackageProjectUrl>
         <EnforceCodeStyleInBuild>True</EnforceCodeStyleInBuild>
@@ -26,11 +26,15 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.Caching.StackExchangeRedis" Version="8.0.1" />
         <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="8.0.0" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="8.0.0" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="NRedisStack" Version="0.11.0" />
+        <PackageReference Include="prometheus-net" Version="8.2.1" />
+        <PackageReference Include="prometheus-net.AspNetCore" Version="8.2.1" />
+        <PackageReference Include="prometheus-net.AspNetCore.HealthChecks" Version="8.2.1" />
+        <PackageReference Include="prometheus-net.SystemMetrics" Version="3.1.0" />
         <PackageReference Include="Serilog" Version="3.1.1" />
         <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
         <PackageReference Include="Serilog.Enrichers.CorrelationId" Version="3.0.1" />
@@ -38,10 +42,7 @@
         <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="5.0.1" />
         <PackageReference Include="Serilog.Sinks.Elasticsearch" Version="9.0.3" />
-        <PackageReference Include="OpenTelemetry.Exporter.Prometheus.AspNetCore" Version="1.6.0-alpha.1" />
-        <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.7.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.AspNetCore" Version="1.7.0" />
-        <PackageReference Include="OpenTelemetry.Instrumentation.Runtime" Version="1.7.0" />
+        <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
     </ItemGroup>
 
     <ItemGroup>

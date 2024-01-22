@@ -1,17 +1,28 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using OpenTelemetry.Metrics;
 using Serilog;
 using Serilog.Sinks.Elasticsearch;
+using StackExchange.Redis;
+using UTube.Common.Settings;
 
-namespace UTube.Common.DependencyInjection
+namespace UTube.Common.extension
 {
-    public static class ServiceExtension
+    public static class ServiceExtensions
     {
         public static IServiceCollection AddSerilog(this IServiceCollection services, IConfiguration configuration)
         {
-            var elasticSearchLoggerUrl = configuration.GetValue<string>("ElasticSearch:LoggerUrl") ?? string.Empty;
+            var logSetting = configuration.GetSection(nameof(LogSetting)).Get<LogSetting>();
             var applicationServiceName = configuration.GetValue<string>("ServiceName") ?? string.Empty;
+
+            if (string.IsNullOrWhiteSpace(applicationServiceName))
+            {
+                throw new ArgumentNullException("ServiceName");
+            }
+            else if (string.IsNullOrEmpty(logSetting?.ElasticSearchLoggerUrl))
+            {
+                throw new ArgumentNullException(nameof(LogSetting.ElasticSearchLoggerUrl));
+
+            }
 
             services.AddSerilog((hostingContext, config) =>
             {
@@ -22,7 +33,7 @@ namespace UTube.Common.DependencyInjection
                     .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT"))
                     .WriteTo.Console()
                     .WriteTo.Elasticsearch(
-                        new ElasticsearchSinkOptions(new Uri(elasticSearchLoggerUrl))
+                        new ElasticsearchSinkOptions(new Uri(logSetting.ElasticSearchLoggerUrl))
                         {
                             AutoRegisterTemplate = true,
                             IndexFormat = $"{applicationServiceName}-{DateTime.UtcNow:yyyy-MM}"
@@ -34,33 +45,17 @@ namespace UTube.Common.DependencyInjection
             return services;
         }
 
-        public static IServiceCollection AddOpenTelemetry(this IServiceCollection services, IConfiguration configuration)
-        {
-            services.AddOpenTelemetry()
-                .WithMetrics(builder => builder
-                .AddAspNetCoreInstrumentation()
-                .AddRuntimeInstrumentation()
-                .AddPrometheusExporter(config =>
-                {
-                    config.ScrapeResponseCacheDurationMilliseconds = 1000;
-                }));
-
-            return services;
-        }
-
         public static IServiceCollection AddRedis(this IServiceCollection services, IConfiguration configuration)
         {
-            var connectionString = configuration.GetConnectionString("Redis");
+            var redisSetting = configuration.GetSection(nameof(RedisSetting)).Get<RedisSetting>();
 
-            if (string.IsNullOrEmpty(connectionString))
+            if (redisSetting == null || string.IsNullOrEmpty(redisSetting.ConnectionString))
             {
-                throw new ArgumentNullException("Connection string \"Redis\" is defined in the appsettings.json");
+                throw new ArgumentNullException(nameof(RedisSetting.ConnectionString), "Invalid Redis connection string");
             }
 
-            services.AddStackExchangeRedisCache(options =>
-            {
-                options.Configuration = connectionString;
-            });
+            ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(redisSetting.ConnectionString);
+            services.AddSingleton(redis);
 
             return services;
         }

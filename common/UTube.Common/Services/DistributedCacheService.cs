@@ -1,5 +1,5 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
+using StackExchange.Redis;
 
 namespace UTube.Common.Services
 {
@@ -8,11 +8,11 @@ namespace UTube.Common.Services
     /// </summary>
     public class DistributedCacheService : ICacheService
     {
-        private readonly IDistributedCache _distributedCache;
+        private readonly IDatabase _db;
 
-        public DistributedCacheService(IDistributedCache distributedCache)
+        public DistributedCacheService(IConnectionMultiplexer connection)
         {
-            _distributedCache = distributedCache;
+            _db = connection.GetDatabase();
         }
 
         public Task AddAsync<T>(string key, T value, CancellationToken cancellationToken = default)
@@ -20,27 +20,20 @@ namespace UTube.Common.Services
             return AddAsync(key, value, null, cancellationToken);
         }
 
-        public Task AddAsync<T>(string key, T value, TimeSpan? timeSpan, CancellationToken cancellationToken = default)
+        public async Task AddAsync<T>(string key, T value, TimeSpan? timeSpan, CancellationToken cancellationToken = default)
         {
-            var options = new DistributedCacheEntryOptions
-            {
-                AbsoluteExpirationRelativeToNow = timeSpan
-            };
-
             var str = JsonConvert.SerializeObject(value);
-            return _distributedCache.SetStringAsync(key, str, options, cancellationToken);
+            await _db.StringSetAsync(new RedisKey(key), new RedisValue(str), timeSpan).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Get value from Radis based on the key.
-        /// </summary>
-        /// <typeparam name="T?">Type of the value</typeparam>
-        /// <param name="key">Key</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>Value if key is found. Otherwise null</returns>
+        public async Task DecrementAsync(string key, double decrementBy = 1, CancellationToken cancellationToken = default)
+        {
+            await _db.StringDecrementAsync(key, decrementBy, CommandFlags.FireAndForget);
+        }
+
         public async ValueTask<T?> GetValueAsync<T>(string key, CancellationToken cancellationToken = default)
         {
-            var str = await _distributedCache.GetStringAsync(key, cancellationToken);
+            var str = await _db.StringGetAsync(key);
 
             if (string.IsNullOrEmpty(str))
             {
@@ -50,9 +43,14 @@ namespace UTube.Common.Services
             return JsonConvert.DeserializeObject<T>(str);
         }
 
+        public async Task IncrementAsync(string key, double incrementBy = 1, CancellationToken cancellationToken = default)
+        {
+            await _db.StringIncrementAsync(key, incrementBy, CommandFlags.FireAndForget);
+        }
+
         public Task RemoveAsync(string key, CancellationToken cancellationToken = default)
         {
-            return _distributedCache.RemoveAsync(key, cancellationToken);
+            return _db.KeyDeleteAsync(new RedisKey(key));
         }
     }
 }
