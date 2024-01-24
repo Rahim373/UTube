@@ -1,51 +1,96 @@
 ﻿using IdentityServer4;
 using IdentityServer4.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace IdentityService.Infrastructure.Settings;
 
-public static class IdentityServerSetting
+public class IdentityServerSetting
 {
-    public static IReadOnlyCollection<ApiScope> ApiScopes => new[]
-    {
-        new ApiScope("video-service.full-access")
-    };
+    private readonly IConfigurationManager _configuration;
 
-    public static IReadOnlyCollection<ApiResource> ApiResources => new[]
+    public IdentityServerSetting(IConfigurationManager configuration)
     {
-        new ApiResource("video-service", "Video Service")
-        {
-            Scopes = { "video-service.full-access" }
-        }
-    };
+        _configuration = configuration;
+    }
 
-    public static IReadOnlyCollection<Client> Clients => new Client[]
+    public IReadOnlyCollection<ApiScope> GetApiScopes()
     {
-        new Client()
+        return new[]
         {
-            ClientName = "webclient",
-            ClientId = "webclient",
-            RequireClientSecret = true,
-            AllowedGrantTypes = {GrantType.AuthorizationCode},
-            AllowedScopes = {
-                IdentityServerConstants.StandardScopes.OpenId,
-                IdentityServerConstants.StandardScopes.Profile,
-                "video-service.full-access"},
-            AlwaysIncludeUserClaimsInIdToken = true,
-            ClientSecrets =
+            new ApiScope("video-service.full-access"),
+            new ApiScope("storage-service.full-access"),
+            new ApiScope("interaction-service.full-access")
+        };
+    }
+
+    public IReadOnlyCollection<ApiResource> GetApiResources()
+    {
+        return new[]
+        {
+            new ApiResource("video-service", "Video Service")
             {
-                new Secret("d7f02357090218c43f6e381745189aeb4ff9ca8e0e65499f3b740e2c51ef2aff".Sha256())
+                Scopes = { "video-service.full-access" }
             },
-            RedirectUris = { "http://localhost:3000/api/auth/callback/webclient" },
-            AllowedCorsOrigins = { "http://localhost:3000" },
-            AllowOfflineAccess = true,
-            ClientUri = "http://localhost:3000"
-        }
-    };
+            new ApiResource("storage-service", "Storage Service")
+            {
+                Scopes = { "storage-service.full-access" }
+            },
+            new ApiResource("interaction-service", "Interaction Service")
+            {
+                Scopes = { "interaction-service.full-access" }
+            }
+        };
+    }
 
-    public static IReadOnlyCollection<IdentityResource> IdentityResources =>
-        new IdentityResource[]
+    public IReadOnlyCollection<Client> GetClients()
+    {
+        var clientUrl = _configuration.GetValue<string>("WebClient:BaseURL");
+        var secret = _configuration.GetValue<string>("WebClient:Secret");
+
+        if (string.IsNullOrEmpty(clientUrl))
+        {
+            throw new ArgumentException("WebClient:BaseURL is not provided.");
+        }
+        else if (string.IsNullOrEmpty(secret))
+        {
+            throw new ArgumentException("WebClient:Secret is not provided.");
+        }
+
+        return new Client[]
+        {
+
+            new Client()
+            {
+                ClientName = "WebClient",
+                ClientId = "web-client",
+                RequireClientSecret = true,
+                AllowedGrantTypes = { GrantType.AuthorizationCode },
+                AllowedScopes = {
+                    IdentityServerConstants.StandardScopes.OpenId,
+                    IdentityServerConstants.StandardScopes.Profile,
+                    "video-service.full-access",
+                    "storage-service.full-access",
+                    "interaction-service.full-access"
+                },
+                AlwaysIncludeUserClaimsInIdToken = true,
+                ClientSecrets =
+                {
+                    new Secret(secret.Sha256())
+                },
+                RedirectUris = { $"{clientUrl}/api/auth/callback/webclient" },
+                AllowedCorsOrigins = { clientUrl },
+                AllowOfflineAccess = true,
+                ClientUri = clientUrl
+            }
+        };
+    }
+
+    public IReadOnlyCollection<IdentityResource> GetIdentityResources()
+    {
+        return new IdentityResource[]
         {
                 new IdentityResources.OpenId(),
                 new IdentityResources.Profile()
         };
+    }
 }

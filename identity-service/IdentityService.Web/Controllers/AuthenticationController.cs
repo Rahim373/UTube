@@ -21,13 +21,8 @@ public class AuthenticationController : Controller
         _signInManager = signInManager;
     }
 
-    public IActionResult Login(string returnUrl)
+    public IActionResult Login()
     {
-        if (!string.IsNullOrEmpty(returnUrl))
-        {
-            return RedirectToAction("Index", "Home");
-        }
-
         return View();
     }
 

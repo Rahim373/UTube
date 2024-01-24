@@ -4,6 +4,8 @@ using IdentityService.Infrastructure.Settings;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using UTube.Common.Extensions;
+using UTube.Common.Settings;
 
 namespace IdentityService.Infrastructure;
 
@@ -11,14 +13,12 @@ public static class DependencyInjection
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
-        #region Mongo Setting with AspNetIdentity
-
         var mongoDbsetting = configuration.GetSection(nameof(MongoDbSetting)).Get<MongoDbSetting>();
 
         services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddMongoDbStores<ApplicationUser, ApplicationRole, Guid>(mongoDbsetting?.ConnectionString, mongoDbsetting?.DatabaseName);
 
-        #endregion
+        var identityServerSetting = new IdentityServerSetting(configuration);
 
         services
             .AddIdentityServer(options =>
@@ -34,10 +34,10 @@ public static class DependencyInjection
                 };
             })
             .AddAspNetIdentity<ApplicationUser>()
-            .AddInMemoryApiScopes(IdentityServerSetting.ApiScopes)
-            .AddInMemoryApiResources(IdentityServerSetting.ApiResources)
-            .AddInMemoryClients(IdentityServerSetting.Clients)
-            .AddInMemoryIdentityResources(IdentityServerSetting.IdentityResources)
+            .AddInMemoryApiScopes(identityServerSetting.GetApiScopes())
+            .AddInMemoryApiResources(identityServerSetting.GetApiResources())
+            .AddInMemoryClients(identityServerSetting.GetClients())
+            .AddInMemoryIdentityResources(identityServerSetting.GetIdentityResources())
             .AddDeveloperSigningCredential();
 
         services.ConfigureApplicationCookie(options =>
@@ -45,6 +45,9 @@ public static class DependencyInjection
             options.Cookie.SameSite = SameSiteMode.None;
             options.Cookie.SecurePolicy = CookieSecurePolicy.Always;
         });
+
+        services.AddSerilog(configuration);
+        services.AddPrometheus(configuration);
 
         return services;
     }

@@ -1,5 +1,6 @@
-using IdentityService.Web;
 using IdentityService.Infrastructure;
+using IdentityService.Web;
+using UTube.Common.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -24,6 +25,11 @@ var app = builder.Build();
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}");
- 
+
+    app.UseEndpoints(endpoints =>
+    {
+        endpoints.MapPrometheus(app);
+    });
+
     app.Run();
 }

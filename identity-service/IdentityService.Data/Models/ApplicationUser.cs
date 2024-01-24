@@ -6,4 +6,5 @@ namespace IdentityService.Data.Models;
 [CollectionName("Users")]
 public class ApplicationUser : MongoIdentityUser<Guid>
 {
+    public string ChannelName { get; set; }
 }
