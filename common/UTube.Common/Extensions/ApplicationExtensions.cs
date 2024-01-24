@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Routing;
 using Prometheus;
 
-namespace UTube.Common.extension
+namespace UTube.Common.Extensions
 {
     public static class ApplicationExtensions
     {

@@ -5,7 +5,7 @@ using Serilog.Sinks.Elasticsearch;
 using StackExchange.Redis;
 using UTube.Common.Settings;
 
-namespace UTube.Common.extension
+namespace UTube.Common.Extensions
 {
     public static class ServiceExtensions
     {
@@ -57,6 +57,12 @@ namespace UTube.Common.extension
             ConnectionMultiplexer redis = ConnectionMultiplexer.Connect(redisSetting.ConnectionString);
             services.AddSingleton(redis);
 
+            return services;
+        }
+
+        public static IServiceCollection AddPrometheus(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddHealthChecks();
             return services;
         }
     }
