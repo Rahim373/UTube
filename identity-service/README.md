@@ -15,10 +15,10 @@ Beside, it validates the JWT token that is used accross the system.
 1. [prometheus-net](https://github.com/prometheus-net/prometheus-net)
 
 
-## Current Implementation
+## :smile: Current Implementation
 ### [Client](https://identityserver4.readthedocs.io/en/latest/intro/terminology.html#client)
-* Web Client - In this case the web application
+* [Web Client](https://github.com/Rahim373/utube/tree/dev/web-client)
 ### [API Resources](https://identityserver4.readthedocs.io/en/latest/intro/terminology.html#resources)
-* Video Service
-* Storage Service
+* [Video Service](https://github.com/Rahim373/utube/tree/dev/video-service)
+* [Storage Service](https://github.com/Rahim373/utube/tree/dev/storage-service)
 * Interaction Service
