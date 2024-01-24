@@ -11,6 +11,10 @@ WORKDIR /src
 COPY ["IdentityService.Web/IdentityService.Web.csproj", "IdentityService.Web/"]
 COPY ["IdentityService.Infrastructure/IdentityService.Infrastructure.csproj", "IdentityService.Infrastructure/"]
 COPY ["IdentityService.Data/IdentityService.Data.csproj", "IdentityService.Data/"]
+
+RUN --mount=type=secret,id=github_token \
+    dotnet nuget add source --username rahim373 --password $(cat /run/secrets/github_token) --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Rahim373/index.json"
+
 RUN dotnet restore "./IdentityService.Web/./IdentityService.Web.csproj"
 COPY . .
 WORKDIR "/src/IdentityService.Web"
